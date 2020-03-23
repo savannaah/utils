@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/savannaah/utils/sxint32"
 	"github.com/savannaah/utils/sxstring"
+	"math"
 	"reflect"
 )
 
@@ -71,4 +72,11 @@ func Unmatched(a, b interface{}) interface{} {
 	default:
 		return nil
 	}
+}
+
+func CheckDecimalPlaces(place int, value float64) bool {
+	valueF := value * float64(math.Pow(10.0, float64(place)))
+	extra := valueF - float64(int(valueF))
+
+	return extra == 0
 }

@@ -1,12 +1,30 @@
 package utils
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/savannaah/utils/sxint32"
 	"github.com/savannaah/utils/sxstring"
 	"math"
 	"reflect"
 )
+
+// Base64Encode takes in a string and returns a base 64 encoded string
+func Base64Encode(src string) string {
+	return base64.StdEncoding.EncodeToString([]byte(src))
+}
+
+// Base64Decode takes in a base 64 encoded string and returns the //actual string or an error of it fails to decode the string
+func Base64Decode(src string) (string, error) {
+	if len(src) == 0 {
+		return "", fmt.Errorf("cannot decode empty string")
+	}
+	data, err := base64.StdEncoding.DecodeString(src)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+}
 
 func Contains(list interface{}, value interface{}) bool {
 	switch fmt.Sprintf("%s:%s", reflect.TypeOf(value), reflect.TypeOf(list)) {

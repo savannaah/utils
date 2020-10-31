@@ -29,7 +29,7 @@ func Base64Decode(src string) (string, error) {
 func Contains(list interface{}, value interface{}) bool {
 	arr := reflect.ValueOf(list)
 
-	if arr.Kind() != reflect.Array {
+	if arr.Kind() != reflect.Slice {
 		panic("invalid data-type, occurred in utils package")
 	}
 
@@ -39,6 +39,32 @@ func Contains(list interface{}, value interface{}) bool {
 		}
 	}
 	return false
+}
+
+func Common(a, b interface{}) (c interface{}) {
+	arrA := reflect.ValueOf(a)
+	arrB := reflect.ValueOf(b)
+
+	if arrA.Kind() != reflect.Slice {
+		panic("invalid data-type, occurred in utils package")
+	}
+	if arrB.Kind() != reflect.Slice {
+		panic("invalid data-type, occurred in utils package")
+	}
+	var arrC []interface{}
+	m := make(map[interface{}]bool)
+
+	for i := 0; i < arrA.Len(); i++ {
+		m[arrA.Index(i).Interface()] = true
+	}
+
+	for i := 0; i < arrB.Len(); i++ {
+		if _, ok := m[arrB.Index(i).Interface()]; ok {
+			arrC = append(arrC, arrB.Index(i).Interface())
+		}
+	}
+
+	return arrC
 }
 
 func Identical(a, b interface{}) bool {
